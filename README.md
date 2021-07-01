@@ -1,1 +1,9 @@
 # Competitive-Programming
+All my AC solutions to competitive programming problems (LeetCode, Google Kickstart, Codeforces, etc.), 2019-2021
+
+| Platform | Username | Submissions Page | Time Active |
+| --- | --- | --- | --- |
+| LeetCode | [Dreamzers](https://leetcode.com/dreamzers) | [Dreamzers's submissions](https://leetcode.com/dreamzers) | 2018 - |
+| Codeforces | [Dreamzers](https://codeforces.com/profile/Dreamzers) | [Dreamzers's submissions](https://codeforces.com/submissions/Dreamzers) | 2018 - |
+| AtCoder | [harbin](https://atcoder.jp/users/harbin) | [harbin's submissions](https://kenkoooo.com/atcoder/#/table/harbin) | 2019 - |
+| CSES | [kmakise](https://cses.fi/user/66280) | [kmakise's submissions](https://cses.fi/problemset/user/66280/) | 2020 - |
