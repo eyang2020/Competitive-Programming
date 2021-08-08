@@ -13,7 +13,7 @@ int main() {
 	ll k;
 	cin >> n >> k;
 	ll sum = 0;
-	int res = 0;
+	ll res = 0;
 	map<ll, int> mp;
 	for(int i=0;i<n;i++) {
 		ll x;
