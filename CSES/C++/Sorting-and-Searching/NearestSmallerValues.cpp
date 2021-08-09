@@ -5,9 +5,6 @@ using namespace std;
 typedef long long ll;
 typedef long double ld;
 
-#include<bits/stdc++.h>
-using namespace std;
-
 int main() {
 	int n;
 	cin >> n;
