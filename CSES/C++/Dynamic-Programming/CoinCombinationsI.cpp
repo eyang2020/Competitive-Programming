@@ -13,7 +13,7 @@ int main() {
 	cin >> n >> x;
 	vector<int> coins(n);
 	for(int i=0;i<n;i++) cin >> coins[i];
-	// let dp[x] represent the total number of ways to form sum x using given coins
+	// let dp[x] represent the total number of ways to form sum x with given coins
 	vector<int> dp(x + 1);
 	dp[0] = 1;
 	for(int i=1;i<=x;i++) {
