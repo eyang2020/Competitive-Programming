@@ -11,7 +11,7 @@ const ll MOD = 1e9 + 7;
 int main() {
 	int n;
 	cin >> n;
-	// let dp[i] represent the number of ways sum x can be made using numbers 1-6
+	// let dp[x] represent the number of ways sum x can be made using numbers 1-6
 	vector<ll> dp(n + 1);
 	dp[0] = 1;
 	for(int i=1;i<=n;i++) {
