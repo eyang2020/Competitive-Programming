@@ -1,5 +1,5 @@
 # Competitive-Programming
-My AC solutions to notable competitive programming problems (LeetCode, Google Kickstart, Codeforces, etc.), 2019-2021
+My AC solutions to notable competitive programming problems (LeetCode, Google Kickstart, Codeforces, etc.), 2018-2021
 
 | Platform | Username | Submissions Page | Time Active |
 | --- | --- | --- | --- |
