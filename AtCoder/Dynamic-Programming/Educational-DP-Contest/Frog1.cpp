@@ -10,6 +10,7 @@ const ll MOD = 1e9 + 7;
 int main() {
     int n;
     cin >> n;
+    // let dp[i] represent the minimum cost to jump from stone 0 to stone i
     vector<int> h(n), dp(n, 1e9);
     for(int i=0;i<n;i++) cin >> h[i];
     dp[0] = 0;
