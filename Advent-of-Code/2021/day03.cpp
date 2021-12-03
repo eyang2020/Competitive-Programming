@@ -75,6 +75,7 @@ static string calc(int n, int m, int prio, multiset<string> ms) {
 	return *ms.begin();
 }
 
+// this sol sucks
 void part2() {
 	int n = (int)a.size();
 	int m = (int)a[0].length();
