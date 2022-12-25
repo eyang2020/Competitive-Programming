@@ -8,10 +8,13 @@ typedef long double ld;
 
 const int N = 100;
 const int INF = 1e9;
+const int T1 = 30;
+const int T2 = 26;
 
 map<string, int> valve_to_id_map;
 map<int, int> valve_to_flow_map;
 map<int, vector<int>> adj_list;
+map<int, map<int, int>> dp[T1+1];
 vector<vector<int>> dist(N, vector<int>(N, INF));
 vector<int> pos_flow_valves;
 
@@ -19,6 +22,9 @@ int get_max_flow(int cur_id, int state, int time_left) {
     int m = pos_flow_valves.size();
     if(state == (1 << m) - 1) {
         return 0;
+    }
+    if(dp[time_left][cur_id].count(state) > 0) {
+        return dp[time_left][cur_id][state];
     }
     int mx = 0;
     for(int i=0;i<m;i++) {
@@ -34,15 +40,23 @@ int get_max_flow(int cur_id, int state, int time_left) {
             }
         }
     }
+    dp[time_left][cur_id][state] = mx;
     return mx;
 }
 
 void part1() {
-    cout << get_max_flow(valve_to_id_map["AA"], 0, 30) << endl;
+    cout << get_max_flow(valve_to_id_map["AA"], 0, T1) << endl;
 }
 
 void part2() {
-    // TODO
+    int m = pos_flow_valves.size();
+    int b = (1 << m) - 1;
+    int mx = 0;
+    // partition each possible state into two disjoint sets, where you go to one and the elephant goes to the other
+    for(int i=0;i<=b/2;i++) {
+        mx = max(mx, get_max_flow(valve_to_id_map["AA"], i, T2) + get_max_flow(valve_to_id_map["AA"], b ^ i, T2)); 
+    }
+    cout << mx << endl;
 }
 
 int main() {
