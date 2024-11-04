@@ -16,6 +16,15 @@ const int dy[4] = {1, 0, -1, 0};
 const int dxWithDiag[8] = {0, 1, 0, -1, 1, -1, 1, -1};
 const int dyWithDiag[8] = {1, 0, -1, 0, -1, 1, 1, -1};
 
+ll gcd(ll a, ll b) {
+    if(b == 0) return a;
+    return gcd(b, a % b);
+}
+
+ll lcm(ll a, ll b) {
+    return (a / gcd(a, b)) * b;
+}
+
 ll modpow(ll x, ll y) {
     ll res = 1;
     x %= MOD;
