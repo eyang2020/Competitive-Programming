@@ -169,6 +169,27 @@ pair<int, int> getStartingPoint(vector<vector<char>> grid) {
     return startingPoint;
 }
 
+/*
+    The shoelace formula is a mathematical algorithm to determine the area of a simple polygon
+    whose vertices are described by their Cartesian coordinates in the plane.
+    https://en.wikipedia.org/wiki/Shoelace_formula
+*/
+double shoelace(vector<double> xCoords, vector<double> yCoords) {
+    int n = xCoords.size();
+    // Initialize area
+    double area = 0;
+ 
+    // Calculate value of shoelace formula
+    int j = n - 1;
+    for(int i = 0; i < n; i++)
+    {
+        area += (xCoords[j] + xCoords[i]) * (yCoords[j] - yCoords[i]);
+        j = i;  // j is previous vertex to i
+    }
+    // Return absolute value
+    return abs(area / 2.0);
+}
+
 void part1(vector<vector<char>> grid) {
     int n = grid.size(), m = grid[0].size();
     pair<int, int> startingPoint = getStartingPoint(grid);
@@ -234,30 +255,67 @@ void part2(vector<vector<char>> grid) {
     vector<vector<char>> loop(n, vector<char>(m, '.'));
     floodfillToFillLoop(grid, loop, startingPoint.first, startingPoint.second);
 
-    // TODO: Fill in points outside the loop
-    for(int i=0;i<n;i++) floodfillToFillOutside(grid, loop, i, 0);
-    for(int i=0;i<n;i++) floodfillToFillOutside(grid, loop, i, m - 1);
-    for(int j=0;j<m;j++) floodfillToFillOutside(grid, loop, 0, j);
-    for(int j=0;j<m;j++) floodfillToFillOutside(grid, loop, n - 1, j);
-
-    // [DEBUG] Print the loop
-    for(int i=0;i<n;i++) {
-        for(int j=0;j<m;j++) {
-            cout << loop[i][j];
+    // Build dist matrix using DFS
+    vector<vector<int>> dist(n, vector<int>(m, 0));
+    vector<vector<bool>> vis(n, vector<bool>(m, false));
+    dist[startingPoint.first][startingPoint.second] = 0;
+    vis[startingPoint.first][startingPoint.second] = true;
+    stack<pair<int, int>> stk;
+    vector<double> xCoords, yCoords;
+    stk.push(startingPoint);
+    while(!stk.empty()) {
+        pair<int, int> f = stk.top();
+        stk.pop();
+        int y = f.first, x = f.second;
+        yCoords.push_back(y);
+        xCoords.push_back(x);
+        // Up
+        if(y - 1 >= 0 && loop[y-1][x] == 'L' && !vis[y-1][x] && canMoveUp(grid[y][x], grid[y-1][x])) {
+            stk.push({y - 1, x});
+            dist[y-1][x] = dist[y][x] + 1;
+            vis[y-1][x] = true;
         }
-        cout << endl;
+        // Down
+        if(y + 1 < n && loop[y+1][x] == 'L' && !vis[y+1][x] && canMoveDown(grid[y][x], grid[y+1][x])) {
+            stk.push({y + 1, x});
+            dist[y+1][x] = dist[y][x] + 1;
+            vis[y+1][x] = true;
+        }
+        // Left
+        if(x - 1 >= 0 && loop[y][x-1] == 'L' && !vis[y][x-1] && canMoveLeft(grid[y][x], grid[y][x-1])) {
+            stk.push({y, x - 1});
+            dist[y][x - 1] = dist[y][x] + 1;
+            vis[y][x - 1] = true;
+        }
+        // Right
+        if(x + 1 < m && loop[y][x+1] == 'L' && !vis[y][x+1] && canMoveRight(grid[y][x], grid[y][x+1])) {
+            stk.push({y, x + 1});
+            dist[y][x + 1] = dist[y][x] + 1;
+            vis[y][x + 1] = true;
+        }
     }
 
-    // Count number of points enclosed by the loop
-    int res = 0;
+    // Get the length of the loop
+    int loopLength = 0;
     for(int i=0;i<n;i++) {
         for(int j=0;j<m;j++) {
-            if(loop[i][j] == '.') {
-                res++;
-            }
+            loopLength = max(loopLength, dist[i][j]);
         }
     }
-    cout << res << endl;
+
+    cout << "LoopLength:" << loopLength << endl;
+
+    // Get simple polygon area
+    int area = shoelace(xCoords, yCoords);
+    cout << "Area: " << area << endl;
+
+    // Get number of interior points
+    // +1 to account for 0 dist at the start, then another +1 to account for the division by 2
+    // In geometry, Pick's theorem provides a formula for the area of a simple polygon with integer vertex coordinates, 
+    // in terms of the number of integer points within it and on its boundary.
+    // https://en.wikipedia.org/wiki/Pick%27s_theorem
+    int res = (area + 1) - ((loopLength + 2) / 2);
+    cout << "Res: " << res << endl;
 }
 
 int main() {
