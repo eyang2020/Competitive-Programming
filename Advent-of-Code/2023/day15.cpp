@@ -125,7 +125,7 @@ int main() {
     string s;
     cin >> s;
     vector<string> tokens = tokenize(s, ",");
-    //part1(tokens);
+    part1(tokens);
     part2(tokens);
     return 0;
 }
