@@ -106,7 +106,7 @@ bool inBounds(int n, int m, pair<int, int> pos) {
 }
 
 string hashCrucible(Crucible c) {
-    string input = to_string(c.dir) + to_string(c.pos.first * 10) + to_string(c.pos.second * 10) + to_string(c.numMoves);
+    string input = to_string(c.dir * 100 + 1) + to_string(c.pos.first * 100 + 2) + to_string(c.pos.second * 100 + 3) + to_string(c.numMoves * 100 + 4);
     return input;
 }
 
@@ -152,7 +152,6 @@ void part1(vector<vector<int>> grid) {
 }
 
 void part2(vector<vector<int>> grid) {
-    // This does not work btw
     int n = grid.size(), m = grid[0].size();
     Crucible east = {grid[0][1], 1, Direction::EAST, {0, 1}};
     Crucible south = {grid[1][0], 1, Direction::SOUTH, {1, 0}};
@@ -164,7 +163,7 @@ void part2(vector<vector<int>> grid) {
     vis.insert(hashCrucible(south));
     while(!pq.empty()) {
         Crucible c = pq.top();
-        if(c.pos.first == n - 1 && c.pos.second == m - 1) {
+        if((c.pos.first == n - 1 && c.pos.second == m - 1) && (c.numMoves >= 4)) {
             cout << c.cost << endl;
             return;
         }
@@ -172,7 +171,13 @@ void part2(vector<vector<int>> grid) {
         vector<Crucible> adj;
         vector<Direction> directions = {Direction::NORTH, Direction::SOUTH, Direction::EAST, Direction::WEST};
         for(Direction nextDir : directions) {
-            if(areOppositeDirections(c.dir, nextDir) || (c.dir == nextDir && (c.numMoves < 4 || c.numMoves > 10))) {
+            if(areOppositeDirections(c.dir, nextDir)) {
+                continue;
+            }
+            if(c.dir != nextDir && c.numMoves < 4) {
+                continue;
+            }
+            if(c.dir == nextDir && c.numMoves >= 10) {
                 continue;
             }
             pair<int, int> nextPos = getNextPos(nextDir, c.pos);
@@ -204,7 +209,7 @@ int main() {
         }
         grid.push_back(row);
     }
-    //part1(grid);
+    part1(grid);
     part2(grid);
     return 0;
 }
